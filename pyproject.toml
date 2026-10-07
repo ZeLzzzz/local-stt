@@ -1,0 +1,22 @@
+[project]
+name = "local-stt"
+version = "0.1.0"
+description = "Transcribe audio locally with Whisper (faster-whisper). Audio never leaves your machine."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "faster-whisper>=1.2",
+    # faster-whisper 1.2.1 calls av.open(metadata_errors=...), removed in PyAV 19.
+    "av<19",
+    # CUDA 12 runtime libraries for GPU inference, so no system-wide CUDA install is needed.
+    "nvidia-cublas-cu12; sys_platform == 'linux' or sys_platform == 'win32'",
+    "nvidia-cudnn-cu12==9.*; sys_platform == 'linux' or sys_platform == 'win32'",
+]
+
+[project.scripts]
+stt = "local_stt.cli:run"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
